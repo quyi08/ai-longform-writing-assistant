@@ -1,0 +1,18 @@
+.env*
+!.env.example
+node_modules/
+.next/
+dist/
+coverage/
+logs/
+*.log
+tsconfig.tsbuildinfo
+.worktrees/
+
+# Local and internal artifacts. Do not include these in the public showcase.
+deliverables/
+tmp/
+docs/superpowers/
+docs/继续开发上下文总结.md
+docs/rag-evals/
+github-public/

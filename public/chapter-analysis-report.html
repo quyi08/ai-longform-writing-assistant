@@ -1,0 +1,619 @@
+<div id="chapterAnalysisReportRoot">
+  <style>
+    @font-face {
+      font-family: "Fusion Pixel";
+      src:
+        url("/fonts/pixel/fusion-pixel-12px-proportional-zh_hans.woff2") format("woff2"),
+        url("/fonts/pixel/fusion-pixel-12px-proportional-latin.woff2") format("woff2");
+      font-display: swap;
+    }
+
+    :root {
+      color-scheme: dark;
+      --bg: #052c24;
+      --panel: rgba(9, 52, 43, 0.82);
+      --panel-soft: rgba(20, 75, 55, 0.58);
+      --line: rgba(141, 199, 154, 0.62);
+      --text: #f3fff4;
+      --muted: #9ed7b1;
+      --bright: #7cff9c;
+      --warn: #ffe87a;
+      --bad: #ff9f88;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(115deg, rgba(141, 199, 154, 0.12) 0 1px, transparent 1px 320px),
+        linear-gradient(72deg, rgba(141, 199, 154, 0.11) 0 2px, transparent 2px 420px),
+        linear-gradient(rgba(141, 199, 154, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(141, 199, 154, 0.05) 1px, transparent 1px),
+        var(--bg);
+      background-size: auto, auto, 48px 48px, 48px 48px;
+      color: var(--text);
+      font-family: "Fusion Pixel", "Microsoft YaHei", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    .reportShell {
+      width: min(1180px, calc(100vw - 64px));
+      margin: 48px auto;
+    }
+
+    .reportHeader {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      border: 1px solid var(--line);
+      background: rgba(0, 32, 26, 0.48);
+      padding: 28px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--bright);
+      font-size: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.05;
+      text-shadow: 5px 5px 0 rgba(0, 0, 0, 0.42);
+    }
+
+    .reportMeta {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .toolButton,
+    .chapterJump {
+      border: 1px solid var(--line);
+      background: rgba(58, 120, 65, 0.82);
+      color: var(--text);
+      padding: 10px 16px;
+      cursor: pointer;
+    }
+
+    .toolButton:hover,
+    .chapterJump:hover {
+      background: rgba(80, 146, 75, 0.92);
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .metric {
+      min-height: 96px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 16px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 12px;
+      font-size: 26px;
+      color: var(--bright);
+    }
+
+    .sectionPanel {
+      border: 1px solid var(--line);
+      background: rgba(4, 34, 27, 0.52);
+      padding: 22px;
+      margin-top: 18px;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: 26px;
+      color: var(--bright);
+    }
+
+    .chartGrid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .chartBox {
+      min-height: 280px;
+      border: 1px solid rgba(141, 199, 154, 0.38);
+      background: rgba(9, 52, 43, 0.52);
+      padding: 16px;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .legend i {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin-right: 6px;
+      vertical-align: -1px;
+    }
+
+    .chapterNav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .chapterJump {
+      padding: 8px 10px;
+      background: rgba(15, 66, 47, 0.8);
+      color: var(--muted);
+    }
+
+    .chapterList {
+      display: grid;
+      gap: 14px;
+    }
+
+    .chapterCard {
+      border: 1px solid rgba(141, 199, 154, 0.56);
+      background: var(--panel);
+      padding: 18px;
+    }
+
+    .chapterTop {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+
+    .chapterTitle {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: baseline;
+    }
+
+    .chapterTitle strong {
+      font-size: 23px;
+    }
+
+    .chapterTitle span,
+    .tag {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .statusTags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .tag {
+      border: 1px solid rgba(141, 199, 154, 0.48);
+      padding: 5px 8px;
+      background: rgba(0, 22, 17, 0.38);
+    }
+
+    .tag.warn {
+      color: var(--warn);
+      border-color: rgba(255, 232, 122, 0.55);
+    }
+
+    .summary {
+      margin: 0 0 14px;
+      color: #d8ffe0;
+      line-height: 1.8;
+    }
+
+    .detailGrid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .detailBlock {
+      border-top: 1px solid rgba(141, 199, 154, 0.32);
+      padding-top: 12px;
+    }
+
+    .detailBlock h3 {
+      margin: 0 0 8px;
+      color: var(--bright);
+      font-size: 16px;
+    }
+
+    .detailBlock ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .emptyState {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 36px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .emptyState strong {
+      display: block;
+      margin-bottom: 14px;
+      color: var(--text);
+      font-size: 28px;
+    }
+
+    .printOnly {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .reportShell {
+        width: min(100% - 28px, 1180px);
+        margin: 24px auto;
+      }
+
+      .reportHeader,
+      .chartGrid,
+      .detailGrid {
+        grid-template-columns: 1fr;
+      }
+
+      .reportMeta {
+        text-align: left;
+      }
+
+      .dashboard {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media print {
+      body {
+        background: #052c24;
+      }
+
+      .toolbar {
+        display: none;
+      }
+
+      .reportShell {
+        width: auto;
+        margin: 18mm;
+      }
+
+      .chapterCard {
+        break-inside: avoid;
+      }
+
+      .printOnly {
+        display: block;
+      }
+    }
+  </style>
+
+  <main class="reportShell">
+    <header class="reportHeader">
+      <div>
+        <p class="eyebrow">章节深度解析可视化</p>
+        <h1 id="reportTitle">1-15 章解析报告</h1>
+      </div>
+      <div class="reportMeta">
+        <span id="projectName">读取中</span>
+        <span id="generatedAt"></span>
+        <span>数据来源：当前浏览器本地项目</span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <button class="toolButton" id="refreshReport" type="button">刷新报告</button>
+      <button class="toolButton" id="printReport" type="button">打印 / 保存 PDF</button>
+      <span class="tag">展示范围：第 1-15 章</span>
+    </div>
+
+    <section id="reportContent"></section>
+  </main>
+
+  <script>
+    (() => {
+      const storageKey = "ai-novel-platform-workspace-v1";
+      const root = document.getElementById("reportContent");
+      const projectName = document.getElementById("projectName");
+      const reportTitle = document.getElementById("reportTitle");
+      const generatedAt = document.getElementById("generatedAt");
+
+      const escapeHtml = (value) =>
+        String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+
+      const unique = (items) => [...new Set(items.filter(Boolean))];
+      const countForeshadowings = (analysis) =>
+        (analysis.foreshadowings?.setups?.length ?? 0) +
+        (analysis.foreshadowings?.payoffs?.length ?? 0) +
+        (analysis.foreshadowings?.updates?.length ?? 0);
+
+      function readProject() {
+        const raw = window.localStorage.getItem(storageKey);
+        if (!raw) {
+          return null;
+        }
+        const state = JSON.parse(raw);
+        const projects = Array.isArray(state.projects) ? state.projects : [];
+        return projects.find((item) => item.id === state.activeProjectId) ?? projects[0] ?? null;
+      }
+
+      function renderEmpty(message) {
+        root.innerHTML = `
+          <div class="emptyState">
+            <strong>暂时没有可展示的数据</strong>
+            <p>${escapeHtml(message)}</p>
+            <p>请回到主页面确认深度解析已经完成至少 1 章，然后刷新本页。</p>
+          </div>
+        `;
+      }
+
+      function renderBars(analyses) {
+        const maxValue = Math.max(
+          1,
+          ...analyses.map((analysis) =>
+            Math.max(
+              analysis.characters?.length ?? 0,
+              countForeshadowings(analysis),
+              analysis.plot?.mainEvents?.length ?? 0,
+            ),
+          ),
+        );
+        const rowHeight = 26;
+        const height = 36 + analyses.length * rowHeight;
+        const width = 760;
+        const plotX = 126;
+        const plotWidth = 560;
+        const scale = (value) => (value / maxValue) * plotWidth;
+
+        const rows = analyses
+          .map((analysis, index) => {
+            const y = 28 + index * rowHeight;
+            const label = `第${analysis.chapterIndex + 1}章`;
+            const chars = analysis.characters?.length ?? 0;
+            const clues = countForeshadowings(analysis);
+            const events = analysis.plot?.mainEvents?.length ?? 0;
+            return `
+              <text x="0" y="${y + 12}" fill="#9ed7b1" font-size="12">${escapeHtml(label)}</text>
+              <rect x="${plotX}" y="${y}" width="${scale(chars)}" height="6" fill="#7cff9c"></rect>
+              <rect x="${plotX}" y="${y + 8}" width="${scale(clues)}" height="6" fill="#ffe87a"></rect>
+              <rect x="${plotX}" y="${y + 16}" width="${scale(events)}" height="6" fill="#8dc79a"></rect>
+              <text x="${plotX + plotWidth + 12}" y="${y + 12}" fill="#f3fff4" font-size="12">${chars}/${clues}/${events}</text>
+            `;
+          })
+          .join("");
+
+        return `
+          <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="章节人物伏笔事件数量对比">
+            <text x="0" y="14" fill="#f3fff4" font-size="14">人物 / 伏笔 / 事件 密度</text>
+            <line x1="${plotX}" y1="22" x2="${plotX + plotWidth}" y2="22" stroke="rgba(141,199,154,.36)"></line>
+            ${rows}
+          </svg>
+          <div class="legend">
+            <span><i style="background:#7cff9c"></i>人物</span>
+            <span><i style="background:#ffe87a"></i>伏笔</span>
+            <span><i style="background:#8dc79a"></i>事件</span>
+          </div>
+        `;
+      }
+
+      function renderQuality(analyses) {
+        const width = 520;
+        const height = 260;
+        const cx = 260;
+        const cy = 132;
+        const radius = 86;
+        const avgConfidence =
+          analyses.reduce((sum, analysis) => sum + Number(analysis.quality?.confidence ?? 0), 0) /
+          Math.max(analyses.length, 1);
+        const structured = analyses.filter((analysis) => (analysis.parseMode ?? "structured") === "structured").length;
+        const repaired = analyses.filter((analysis) => analysis.parseMode === "repaired").length;
+        const degraded = analyses.filter((analysis) => analysis.parseMode === "degraded").length;
+        const review = analyses.filter((analysis) => analysis.quality?.needsHumanReview).length;
+        const dash = Math.max(0, Math.min(1, avgConfidence)) * 540;
+
+        return `
+          <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="解析质量概览">
+            <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="rgba(141,199,154,.22)" stroke-width="16"></circle>
+            <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="#7cff9c" stroke-width="16" stroke-dasharray="${dash} 540" transform="rotate(-90 ${cx} ${cy})"></circle>
+            <text x="${cx}" y="${cy - 5}" text-anchor="middle" fill="#f3fff4" font-size="34">${Math.round(avgConfidence * 100)}%</text>
+            <text x="${cx}" y="${cy + 24}" text-anchor="middle" fill="#9ed7b1" font-size="13">平均置信度</text>
+            <text x="20" y="44" fill="#9ed7b1" font-size="13">结构化：${structured}</text>
+            <text x="20" y="74" fill="#9ed7b1" font-size="13">已修复：${repaired}</text>
+            <text x="20" y="104" fill="#ffe87a" font-size="13">降级：${degraded}</text>
+            <text x="20" y="134" fill="#ff9f88" font-size="13">待复核：${review}</text>
+          </svg>
+        `;
+      }
+
+      function listItems(items, pick, fallback) {
+        const values = (items ?? []).map(pick).filter(Boolean).slice(0, 5);
+        if (!values.length) {
+          return `<li>${escapeHtml(fallback)}</li>`;
+        }
+        return values.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+      }
+
+      function renderChapterCards(analyses) {
+        return analyses
+          .map((analysis) => {
+            const mode = analysis.parseMode ?? "structured";
+            const modeText =
+              mode === "repaired" ? "已修复" : mode === "degraded" ? "降级摘要" : "结构化";
+            const review = analysis.quality?.needsHumanReview ? `<span class="tag warn">建议复核</span>` : "";
+            const characterNames = unique((analysis.characters ?? []).map((item) => item.name));
+            const clueTitles = [
+              ...(analysis.foreshadowings?.setups ?? []).map((item) => `埋设：${item.title}`),
+              ...(analysis.foreshadowings?.payoffs ?? []).map((item) => `回收：${item.title}`),
+              ...(analysis.foreshadowings?.updates ?? []).map((item) => `推进：${item.title}`),
+            ];
+            return `
+              <article class="chapterCard" id="chapter-${analysis.chapterIndex + 1}">
+                <div class="chapterTop">
+                  <div class="chapterTitle">
+                    <span>第 ${analysis.chapterIndex + 1} 章</span>
+                    <strong>${escapeHtml(analysis.chapterTitle)}</strong>
+                  </div>
+                  <div class="statusTags">
+                    <span class="tag">${escapeHtml(modeText)}</span>
+                    <span class="tag">${analysis.wordCount ?? 0} 字</span>
+                    <span class="tag">置信度 ${Math.round(Number(analysis.quality?.confidence ?? 0) * 100)}%</span>
+                    ${review}
+                  </div>
+                </div>
+                <p class="summary">${escapeHtml(analysis.summary?.short || analysis.summary?.detailed || "暂无摘要")}</p>
+                <div class="detailGrid">
+                  <section class="detailBlock">
+                    <h3>剧情推进</h3>
+                    <ul>${listItems(analysis.plot?.mainEvents, (item) => `${item.title}：${item.summary}`, "暂无主要事件")}</ul>
+                  </section>
+                  <section class="detailBlock">
+                    <h3>人物变化</h3>
+                    <ul>${characterNames.length ? characterNames.slice(0, 6).map((name) => `<li>${escapeHtml(name)}</li>`).join("") : "<li>暂无人物记录</li>"}</ul>
+                  </section>
+                  <section class="detailBlock">
+                    <h3>伏笔线索</h3>
+                    <ul>${clueTitles.length ? clueTitles.slice(0, 6).map((title) => `<li>${escapeHtml(title)}</li>`).join("") : "<li>暂无伏笔记录</li>"}</ul>
+                  </section>
+                  <section class="detailBlock">
+                    <h3>章节钩子</h3>
+                    <ul><li>${escapeHtml(analysis.craft?.chapterHook || analysis.plot?.chapterEnding || "暂无章节钩子")}</li></ul>
+                  </section>
+                  <section class="detailBlock">
+                    <h3>后续引导</h3>
+                    <ul>${listItems(analysis.continuationHints?.nextLeads, (item) => item, "暂无后续引导")}</ul>
+                  </section>
+                  <section class="detailBlock">
+                    <h3>开放问题</h3>
+                    <ul>${listItems(analysis.continuationHints?.openQuestions, (item) => item, "暂无开放问题")}</ul>
+                  </section>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      function renderReport() {
+        generatedAt.textContent = new Date().toLocaleString();
+        let project;
+        try {
+          project = readProject();
+        } catch (error) {
+          renderEmpty("本地项目数据解析失败，请确认主页面可以正常打开。");
+          return;
+        }
+
+        if (!project) {
+          renderEmpty("没有读取到当前项目。");
+          return;
+        }
+
+        const analyses = (project.chapterAnalyses ?? [])
+          .filter((analysis) => analysis.chapterIndex >= 0 && analysis.chapterIndex < 15)
+          .sort((a, b) => a.chapterIndex - b.chapterIndex);
+
+        projectName.textContent = project.title || "未命名项目";
+        reportTitle.textContent = `${project.title || "当前小说"}｜1-15 章解析报告`;
+
+        if (!analyses.length) {
+          renderEmpty("当前项目还没有 1-15 章的深度解析数据。");
+          return;
+        }
+
+        const totalWords = analyses.reduce((sum, analysis) => sum + Number(analysis.wordCount ?? 0), 0);
+        const allCharacters = unique(analyses.flatMap((analysis) => (analysis.characters ?? []).map((item) => item.name)));
+        const clueCount = analyses.reduce((sum, analysis) => sum + countForeshadowings(analysis), 0);
+        const eventCount = analyses.reduce((sum, analysis) => sum + (analysis.plot?.mainEvents?.length ?? 0), 0);
+        const reviewCount = analyses.filter((analysis) => analysis.quality?.needsHumanReview).length;
+        const nav = analyses
+          .map((analysis) => `<a class="chapterJump" href="#chapter-${analysis.chapterIndex + 1}">第 ${analysis.chapterIndex + 1} 章</a>`)
+          .join("");
+
+        root.innerHTML = `
+          <section class="dashboard" aria-label="解析指标概览">
+            <div class="metric"><span>已展示章节</span><strong>${analyses.length}/15</strong></div>
+            <div class="metric"><span>覆盖字数</span><strong>${totalWords.toLocaleString()}</strong></div>
+            <div class="metric"><span>命中人物</span><strong>${allCharacters.length}</strong></div>
+            <div class="metric"><span>伏笔记录</span><strong>${clueCount}</strong></div>
+            <div class="metric"><span>待复核</span><strong>${reviewCount}</strong></div>
+          </section>
+          <section class="sectionPanel">
+            <h2>全局密度</h2>
+            <div class="chartGrid">
+              <div class="chartBox">${renderBars(analyses)}</div>
+              <div class="chartBox">${renderQuality(analyses)}</div>
+            </div>
+          </section>
+          <section class="sectionPanel">
+            <h2>章节索引</h2>
+            <nav class="chapterNav" aria-label="章节跳转">${nav}</nav>
+            <div class="chapterList">${renderChapterCards(analyses)}</div>
+          </section>
+        `;
+      }
+
+      document.getElementById("refreshReport").addEventListener("click", renderReport);
+      document.getElementById("printReport").addEventListener("click", () => window.print());
+      renderReport();
+    })();
+  </script>
+</div>

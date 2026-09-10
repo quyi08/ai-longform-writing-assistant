@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pixel Font Preview</title>
+    <link rel="stylesheet" href="./pixel-fonts.css" />
+    <style>
+      :root {
+        --bg: #061a12;
+        --panel: #0b2a1b;
+        --line: #77c66e;
+        --glow: #a8f06d;
+        --text: #d9f7b8;
+        --muted: #8bb77d;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background:
+          linear-gradient(rgba(168, 240, 109, 0.04) 1px, transparent 1px),
+          var(--bg);
+        background-size: 100% 4px;
+        color: var(--text);
+        margin: 0;
+        padding: 32px;
+      }
+
+      h1 {
+        font-family: "Fusion Pixel 12 Proportional", sans-serif;
+        font-size: 28px;
+        font-weight: 400;
+        margin: 0 0 24px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      }
+
+      .card {
+        background: var(--panel);
+        border: 2px solid var(--line);
+        box-shadow: 0 0 18px rgba(168, 240, 109, 0.15);
+        padding: 18px;
+      }
+
+      .name {
+        color: var(--glow);
+        font-size: 14px;
+        margin-bottom: 14px;
+      }
+
+      .sample {
+        font-size: 20px;
+        line-height: 1.8;
+      }
+
+      .small {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.8;
+        margin-top: 12px;
+      }
+
+      .fusion-proportional { font-family: "Fusion Pixel 12 Proportional", sans-serif; }
+      .fusion-mono { font-family: "Fusion Pixel 12 Mono", monospace; }
+      .ark { font-family: "Ark Pixel 12 Proportional", sans-serif; }
+      .press-start { font-family: "Press Start 2P", monospace; font-size: 13px; }
+      .silkscreen { font-family: "Silkscreen", monospace; }
+      .pixelify { font-family: "Pixelify Sans", sans-serif; }
+    </style>
+  </head>
+  <body>
+    <h1>像素字体预览 / Air to World UI</h1>
+    <main class="grid">
+      <section class="card fusion-proportional">
+        <div class="name">Fusion Pixel 12 Proportional</div>
+        <div class="sample">选择小说世界<br />AI 小说管理平台<br />Air to World</div>
+        <div class="small">推荐：中文按钮、面板标题、常规 UI 文本。</div>
+      </section>
+      <section class="card fusion-mono">
+        <div class="name">Fusion Pixel 12 Mono</div>
+        <div class="sample">航班编号 03:28<br />WORLD_ID: NOVEL_01<br />进入世界</div>
+        <div class="small">推荐：终端、状态栏、编号、系统提示。</div>
+      </section>
+      <section class="card ark">
+        <div class="name">Ark Pixel 12 Proportional</div>
+        <div class="sample">选择目的世界<br />故事航站已就绪<br />Air to World</div>
+        <div class="small">推荐：更硬朗的中文像素界面。</div>
+      </section>
+      <section class="card press-start">
+        <div class="name">Press Start 2P</div>
+        <div class="sample">AIR TO WORLD<br />START<br />LOGIN</div>
+        <div class="small">推荐：英文小徽标，不适合大段中文。</div>
+      </section>
+      <section class="card silkscreen">
+        <div class="name">Silkscreen</div>
+        <div class="sample">AIR TO WORLD<br />Select World<br />Continue</div>
+        <div class="small">推荐：英文按钮、角标、HUD 标签。</div>
+      </section>
+      <section class="card pixelify">
+        <div class="name">Pixelify Sans</div>
+        <div class="sample">Air to World<br />Novel Terminal<br />Launch</div>
+        <div class="small">推荐：英文标题，比较轻松现代。</div>
+      </section>
+    </main>
+  </body>
+</html>

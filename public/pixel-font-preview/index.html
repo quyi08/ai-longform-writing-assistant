@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pixel Font Preview</title>
+    <style>
+      @font-face {
+        font-family: "Fusion Pixel 12 Proportional";
+        src: url("./fonts/fusion-pixel-12px-proportional-zh_hans.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "Fusion Pixel 12 Mono";
+        src: url("./fonts/fusion-pixel-12px-monospaced-zh_hans.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "Ark Pixel 12 Proportional";
+        src: url("./fonts/ark-pixel-12px-proportional-zh_cn.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "Press Start 2P";
+        src: url("./fonts/press-start-2p.ttf") format("truetype");
+      }
+
+      @font-face {
+        font-family: "Silkscreen";
+        src: url("./fonts/silkscreen-regular.ttf") format("truetype");
+      }
+
+      @font-face {
+        font-family: "Pixelify Sans";
+        src: url("./fonts/pixelify-sans-variable.ttf") format("truetype");
+      }
+
+      :root {
+        --bg: #04150d;
+        --panel: #092417;
+        --panel-2: #0e331f;
+        --line: #75c96e;
+        --glow: #b8ff77;
+        --text: #e0f8bf;
+        --muted: #8eb37b;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background:
+          linear-gradient(rgba(184, 255, 119, 0.04) 1px, transparent 1px),
+          radial-gradient(circle at 50% 0%, rgba(117, 201, 110, 0.14), transparent 36%),
+          var(--bg);
+        background-size: 100% 4px, auto, auto;
+        color: var(--text);
+        margin: 0;
+        padding: 28px;
+      }
+
+      h1 {
+        font-family: "Fusion Pixel 12 Proportional", sans-serif;
+        font-size: 32px;
+        font-weight: 400;
+        margin: 0 0 8px;
+      }
+
+      .sub {
+        color: var(--muted);
+        font-family: "Fusion Pixel 12 Proportional", sans-serif;
+        font-size: 18px;
+        margin-bottom: 24px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(2, minmax(360px, 1fr));
+      }
+
+      .card {
+        background: linear-gradient(180deg, var(--panel-2), var(--panel));
+        border: 2px solid var(--line);
+        box-shadow: 0 0 20px rgba(184, 255, 119, 0.14);
+        min-height: 230px;
+        padding: 18px;
+      }
+
+      .name {
+        border-bottom: 1px solid rgba(184, 255, 119, 0.35);
+        color: var(--glow);
+        font-family: "Fusion Pixel 12 Mono", monospace;
+        font-size: 13px;
+        margin-bottom: 16px;
+        padding-bottom: 10px;
+      }
+
+      .sample {
+        font-size: 26px;
+        line-height: 1.65;
+      }
+
+      .latin {
+        color: #b8ff77;
+        display: block;
+        margin-top: 6px;
+      }
+
+      .button {
+        background: #143f25;
+        border: 2px solid #9ce36f;
+        box-shadow:
+          inset 0 0 0 2px rgba(4, 21, 13, 0.55),
+          0 0 14px rgba(156, 227, 111, 0.2);
+        color: #eaffc9;
+        display: inline-block;
+        font-size: 18px;
+        margin-top: 18px;
+        padding: 10px 16px;
+      }
+
+      .note {
+        color: var(--muted);
+        font-family: "Fusion Pixel 12 Proportional", sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        margin-top: 14px;
+      }
+
+      .fusion-proportional { font-family: "Fusion Pixel 12 Proportional", sans-serif; }
+      .fusion-mono { font-family: "Fusion Pixel 12 Mono", monospace; }
+      .ark { font-family: "Ark Pixel 12 Proportional", sans-serif; }
+      .press-start { font-family: "Press Start 2P", monospace; }
+      .press-start .sample { font-size: 15px; line-height: 2; }
+      .press-start .button { font-size: 12px; }
+      .silkscreen { font-family: "Silkscreen", monospace; }
+      .pixelify { font-family: "Pixelify Sans", sans-serif; }
+    </style>
+  </head>
+  <body>
+    <h1>像素字体预览</h1>
+    <div class="sub">AI 小说管理平台 / Air to World 登录 UI 字体参考</div>
+    <main class="grid">
+      <section class="card fusion-proportional">
+        <div class="name">Fusion Pixel 12 Proportional</div>
+        <div class="sample">
+          选择小说世界<br />
+          AI 小说管理平台
+          <span class="latin">Air to World</span>
+        </div>
+        <div class="button">进入世界</div>
+        <div class="note">中文主 UI 最推荐：清楚、像素感强，按钮和面板标题都稳。</div>
+      </section>
+
+      <section class="card fusion-mono">
+        <div class="name">Fusion Pixel 12 Mono</div>
+        <div class="sample">
+          航班编号 03:28<br />
+          世界坐标 12-07
+          <span class="latin">WORLD_ID: NOVEL_01</span>
+        </div>
+        <div class="button">系统就绪</div>
+        <div class="note">适合终端、状态栏、编号、坐标和系统提示。</div>
+      </section>
+
+      <section class="card ark">
+        <div class="name">Ark Pixel 12 Proportional</div>
+        <div class="sample">
+          选择目的世界<br />
+          故事航站已开启
+          <span class="latin">Novel Terminal</span>
+        </div>
+        <div class="button">确认起飞</div>
+        <div class="note">更硬朗、更游戏机感，适合复古系统窗口。</div>
+      </section>
+
+      <section class="card press-start">
+        <div class="name">Press Start 2P</div>
+        <div class="sample">
+          AIR TO WORLD<br />
+          LOGIN START<br />
+          SELECT NOVEL
+        </div>
+        <div class="button">START</div>
+        <div class="note">经典英文像素标题，不适合中文或长文本。</div>
+      </section>
+
+      <section class="card silkscreen">
+        <div class="name">Silkscreen</div>
+        <div class="sample">
+          AIR TO WORLD<br />
+          Select World<br />
+          Launch Panel
+        </div>
+        <div class="button">Continue</div>
+        <div class="note">英文按钮/HUD 标签很好用，轻快但不抢戏。</div>
+      </section>
+
+      <section class="card pixelify">
+        <div class="name">Pixelify Sans</div>
+        <div class="sample">
+          Air to World<br />
+          Novel Terminal<br />
+          Choose a Book
+        </div>
+        <div class="button">Enter</div>
+        <div class="note">更现代一点的英文像素字体，可做辅助英文标题。</div>
+      </section>
+    </main>
+  </body>
+</html>
